@@ -1,6 +1,5 @@
 USE sakila;
 
-
 -- 1. How many films are there for each of the categories in the category table. Use appropriate join to write this query.
 SELECT * from category;
 SELECT * from film_category;
@@ -49,9 +48,29 @@ JOIN address a
 ON s.address_id = a.address_id;
 
 -- 6. List each film and the number of actors who are listed for that film.
-
+SELECT a.film_id, f.title, COUNT(a.film_id) AS number_of_actors_in_movie
+FROM sakila.film_actor a 
+JOIN sakila.film f
+ON a.film_id = f.film_id
+GROUP BY a.film_id
+ORDER BY f.title ASC;
 
 -- 7. Using the tables payment and customer and the JOIN command, list the total paid by each customer. List the customers alphabetically by last name.
-
+SELECT c.last_name, c.first_name, SUM(p.amount) AS total_paid_for_customer
+FROM sakila.payment p 
+JOIN sakila.customer c
+ON p.customer_id = c.customer_id
+GROUP BY c.customer_id
+ORDER BY c.last_name ASC;
 
 -- 8. List the titles of films per category.
+SELECT f.film_id, f.title AS film_title, c.name AS film_category
+FROM sakila.film f
+JOIN sakila.film_category fc
+ON f.film_id = fc.film_id
+JOIN sakila.category c
+ON fc.category_id = c.category_id
+ORDER BY f.title ASC;
+
+
+
